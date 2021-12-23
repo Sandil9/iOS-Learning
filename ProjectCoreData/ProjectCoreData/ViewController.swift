@@ -14,8 +14,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var namesArray: [String] = []
     var idsArray: [UUID] = []
     
-//    var paintingName = ""
-//    var paintingId =
+    var selectedName = ""
+    var selectedID: UUID?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,11 +31,20 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     override func viewWillAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(self, selector: #selector(reloadData), name: NSNotification.Name("reloadData"), object: nil)
+        self.tableView.reloadData()
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showDetailsVC" {
+            let destinationVC = segue.destination as! DetailsViewController
+            destinationVC.selectedName = selectedName
+            destinationVC.selectedID = selectedID
+        }
     }
     @objc func reloadData() {
         getData()
     }
     @objc func btnAddTapped() {
+        selectedName = ""
         performSegue(withIdentifier: "showDetailsVC", sender: nil)
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -47,8 +56,46 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return namesArray.count
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        paintingName = namesArray[indexPath.row]
-//        paintingId = idsArray[indexPath.row]
+        selectedName = namesArray[indexPath.row]
+        selectedID = idsArray[indexPath.row]
+        
+        performSegue(withIdentifier: "showDetailsVC", sender: nil)
+    }
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            selectedName = namesArray[indexPath.row]
+            selectedID = idsArray[indexPath.row]
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            let context = appDelegate.persistentContainer.viewContext
+            
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Paintings")
+            let idString = selectedID?.uuidString
+            fetchRequest.predicate = NSPredicate(format: "id = %@", idString!)
+            fetchRequest.returnsObjectsAsFaults = false
+            
+            do {
+                let results = try context.fetch(fetchRequest)
+                for result in results as! [NSManagedObject] {
+                    if let id = result.value(forKey: "id") as? UUID {
+                        if id == selectedID {
+                            context.delete(result)
+                            namesArray.remove(at: indexPath.row)
+                            idsArray.remove(at: indexPath.row)
+                            
+                            do {
+                                try context.save()
+                            } catch {
+                                print("Error deleting record")
+                            }
+                            self.tableView.reloadData()
+                            break
+                        }
+                    }
+                }
+            } catch {
+                print("Error")
+            }
+        }
     }
     func getData() {
         namesArray.removeAll()
@@ -78,8 +125,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         } catch {
             print("Error in getting results")
         }
-        
-        
     }
     
 }
