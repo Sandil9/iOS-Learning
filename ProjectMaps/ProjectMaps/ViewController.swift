@@ -110,6 +110,48 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         mapView.setRegion(region, animated: true)
         
     }
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        
+        if annotation is MKUserLocation {
+            return nil
+        }
+//
+        let reuseId = "myAnnotation"
+        var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? MKPinAnnotationView
+//
+        if pinView == nil {
+//
+            pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
+            pinView?.canShowCallout = true
+//
+            pinView?.tintColor = UIColor.black
+//
+            let button = UIButton(type: UIButton.ButtonType.detailDisclosure)
+            pinView?.rightCalloutAccessoryView = button
+//
+        } else {
+            pinView?.annotation = annotation
+        }
+//
+        return pinView
+    }
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        if selectedTitle != "" {
+            let requestLocation = CLLocation(latitude: annotationLatitude, longitude: annotationLongitude)
+            
+            CLGeocoder().reverseGeocodeLocation(requestLocation) { (placemarks, error) in
+                if let placemark = placemarks {
+                    if placemark.count > 0 {
+                        let newPlacemark = MKPlacemark(placemark: placemark[0])
+                        let item = MKMapItem(placemark: newPlacemark)
+                        item.name = self.annotationTitle
+                        let launchOptions = [MKLaunchOptionsDirectionsModeKey:MKLaunchOptionsDirectionsModeDriving]
+                        item.openInMaps(launchOptions: launchOptions)
+                    }
+                }
+            }
+        }
+    }
     @objc func handleLongPress(gestureRecognizer: UILongPressGestureRecognizer) {
         
         let touchPoint = gestureRecognizer.location(in: self.mapView)
@@ -144,6 +186,8 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         } catch {
             print("Error saving place")
         }
+        NotificationCenter.default.post(name: NSNotification.Name("newPlaceAdded"), object: nil)
+        self.navigationController?.popViewController(animated: true)
     }
 }
 

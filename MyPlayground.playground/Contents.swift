@@ -216,8 +216,9 @@ import UIKit
 //    print("has some value \(temp)")
 //}
 //testFunction()
-
-// a ?? b
+//var a: Int?
+//var b: Int?
+//a ?? b
 
 //var coalescingValue:Int?
 //let defaultValue = 5
@@ -382,7 +383,7 @@ import UIKit
 //print("Empty Element: \(values.isEmpty)")
 //
 //var address : [Any] = ["String", 570]
-
+//address.append(570.0)
 
 //Swift Set
 //var studentID : Set = [112, 114, 116, 118, 115]

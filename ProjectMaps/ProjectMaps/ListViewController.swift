@@ -28,11 +28,11 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         getData()
     }
     override func viewWillAppear(_ animated: Bool) {
-        NotificationCenter.default.addObserver(self, selector: #selector(getData), name: NSNotification.Name("newPlace"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(getData), name: NSNotification.Name("newPlaceAdded"), object: nil)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "toViewController" {
+        if segue.identifier == "showDetails" {
             let destinationVC = segue.destination as! ViewController
             destinationVC.selectedTitle = chosenTitle
             destinationVC.selectedTitleID = chosenTitleId
@@ -51,7 +51,7 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         chosenTitle = titleArray[indexPath.row]
         chosenTitleId = idArray[indexPath.row]
-        performSegue(withIdentifier: "toViewController", sender: nil)
+        performSegue(withIdentifier: "showDetails", sender: nil)
     }
     
     @objc func btnAddTapped() {
