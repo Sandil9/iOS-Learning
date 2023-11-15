@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="rosterCell" rowHeight="87" id="h32-Pq-Gha" customClass="RosterTableCell" customModule="AmazonChimeSDKDemo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="430" height="87"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="h32-Pq-Gha" id="Xwj-qF-yYo">
+                <rect key="frame" x="0.0" y="0.0" width="430" height="87"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DkV-Mp-JQ9" userLabel="Active Speaker Indicator">
+                        <rect key="frame" x="16" y="39.666666666666664" width="8" height="8"/>
+                        <color key="backgroundColor" red="0.38431372549999998" green="0.84705882349999995" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <accessibility key="accessibilityConfiguration">
+                            <bool key="isElement" value="YES"/>
+                        </accessibility>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="8" id="CUK-RC-K5h"/>
+                            <constraint firstAttribute="width" constant="8" id="q3G-iI-dNb"/>
+                        </constraints>
+                    </view>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="volume-muted" translatesAutoresizingMaskIntoConstraints="NO" id="LL0-6a-fy0">
+                        <rect key="frame" x="382" y="27.666666666666671" width="32" height="32"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="32" id="i0c-2m-q2C"/>
+                            <constraint firstAttribute="height" constant="32" id="zUG-hP-Vfc"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="koo-bM-D0n">
+                        <rect key="frame" x="32" y="33.333333333333336" width="342" height="20.333333333333336"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="koo-bM-D0n" firstAttribute="leading" secondItem="DkV-Mp-JQ9" secondAttribute="trailing" constant="8" id="6xR-uR-4J2"/>
+                    <constraint firstItem="LL0-6a-fy0" firstAttribute="centerY" secondItem="Xwj-qF-yYo" secondAttribute="centerY" id="8KJ-iz-bId"/>
+                    <constraint firstItem="LL0-6a-fy0" firstAttribute="leading" secondItem="koo-bM-D0n" secondAttribute="trailing" constant="8" id="BeY-XX-vwF"/>
+                    <constraint firstItem="DkV-Mp-JQ9" firstAttribute="centerY" secondItem="Xwj-qF-yYo" secondAttribute="centerY" id="LXR-cR-lxl"/>
+                    <constraint firstItem="koo-bM-D0n" firstAttribute="centerY" secondItem="Xwj-qF-yYo" secondAttribute="centerY" id="UWa-3O-hz7"/>
+                    <constraint firstAttribute="trailing" secondItem="LL0-6a-fy0" secondAttribute="trailing" constant="16" id="Ugc-g0-r9u"/>
+                    <constraint firstItem="DkV-Mp-JQ9" firstAttribute="leading" secondItem="Xwj-qF-yYo" secondAttribute="leading" constant="16" id="Yte-4E-2ZD"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="attendeeName" destination="koo-bM-D0n" id="G6B-Eu-ghg"/>
+                <outlet property="indicator" destination="DkV-Mp-JQ9" id="aWP-L5-I65"/>
+                <outlet property="speakLevel" destination="LL0-6a-fy0" id="QJg-mn-AJy"/>
+            </connections>
+            <point key="canvasLocation" x="140" y="20"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="volume-muted" width="24" height="24"/>
+    </resources>
+</document>
